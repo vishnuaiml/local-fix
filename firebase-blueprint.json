@@ -1,0 +1,132 @@
+{
+  "entities": {
+    "users": {
+      "title": "User",
+      "description": "User profile for customer, provider, or administrator",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique user identifier" },
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email", "description": "User email address" },
+        "fullName": { "type": "string", "description": "User full display name", "maxLength": 100 },
+        "phoneNumber": { "type": "string", "description": "Contact phone number", "maxLength": 20 },
+        "role": { "type": "string", "enum": ["customer", "provider", "admin"], "description": "User access role" },
+        "accountStatus": { "type": "string", "enum": ["active", "suspended", "deactivated"], "description": "Account status" },
+        "department": { "type": "string", "description": "Admin department if applicable" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last update timestamp" }
+      },
+      "required": ["uid", "email", "fullName", "role", "accountStatus"]
+    },
+    "providers": {
+      "title": "Provider",
+      "description": "Registered local service provider",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique provider ID" },
+        "uid": { "type": "string", "description": "Linked Firebase Auth UID" },
+        "fullName": { "type": "string", "description": "Provider legal full name", "maxLength": 100 },
+        "businessName": { "type": "string", "description": "Commercial trading name", "maxLength": 120 },
+        "email": { "type": "string", "format": "email", "description": "Business contact email" },
+        "phoneNumber": { "type": "string", "description": "Contact phone number", "maxLength": 20 },
+        "serviceCategory": { "type": "string", "description": "Primary service trade category", "maxLength": 80 },
+        "serviceArea": { "type": "string", "description": "Operating locality or neighborhood", "maxLength": 100 },
+        "serviceDescription": { "type": "string", "description": "Detailed trade description", "maxLength": 500 },
+        "experienceYears": { "type": "number", "description": "Years of hands-on experience" },
+        "hourlyRate": { "type": "number", "description": "Indicative starting price in INR" },
+        "rating": { "type": "number", "description": "Average verified rating 1.0 to 5.0" },
+        "completedJobs": { "type": "number", "description": "Number of successfully completed jobs" },
+        "verificationStatus": { "type": "string", "enum": ["pending", "approved", "rejected"], "description": "Admin verification status" },
+        "accountStatus": { "type": "string", "enum": ["active", "suspended", "deactivated"], "description": "Provider account status" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Registration timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last update timestamp" }
+      },
+      "required": ["fullName", "email", "serviceCategory", "serviceArea", "verificationStatus", "accountStatus"]
+    },
+    "bookings": {
+      "title": "Booking",
+      "description": "Customer service reservation request",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique booking reservation ID" },
+        "customerId": { "type": "string", "description": "Customer user identifier" },
+        "providerId": { "type": "string", "description": "Assigned service provider ID" },
+        "serviceCategory": { "type": "string", "description": "Trade category" },
+        "serviceDescription": { "type": "string", "description": "Work description", "maxLength": 500 },
+        "serviceLocation": { "type": "string", "description": "Service physical delivery address", "maxLength": 300 },
+        "preferredDate": { "type": "string", "description": "Requested date (YYYY-MM-DD)" },
+        "preferredTime": { "type": "string", "description": "Requested time slot" },
+        "status": {
+          "type": "string",
+          "enum": ["Pending", "Accepted", "Rejected", "In Progress", "Completed", "Cancelled"],
+          "description": "Booking workflow state"
+        },
+        "indicativePrice": { "type": "number", "description": "Estimated service fee in INR" },
+        "customerNotes": { "type": "string", "description": "Special customer instructions", "maxLength": 500 },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Booking submission time" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Status update timestamp" }
+      },
+      "required": ["customerId", "providerId", "serviceLocation", "preferredDate", "preferredTime", "status"]
+    },
+    "reviews": {
+      "title": "Review",
+      "description": "Customer service feedback for a completed booking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Review unique identifier" },
+        "bookingId": { "type": "string", "description": "Associated completed booking ID" },
+        "customerId": { "type": "string", "description": "Review author customer ID" },
+        "providerId": { "type": "string", "description": "Rated provider ID" },
+        "rating": { "type": "number", "description": "Star rating 1 to 5" },
+        "comment": { "type": "string", "description": "Customer review comment", "maxLength": 1000 },
+        "customerName": { "type": "string", "description": "Customer display name", "maxLength": 100 },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Review publication timestamp" }
+      },
+      "required": ["bookingId", "customerId", "providerId", "rating", "comment"]
+    },
+    "complaints": {
+      "title": "Complaint",
+      "description": "Customer dispute or grievance ticket",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Complaint ticket ID" },
+        "bookingId": { "type": "string", "description": "Associated booking ID" },
+        "customerId": { "type": "string", "description": "Complainant customer ID" },
+        "providerId": { "type": "string", "description": "Subject provider ID" },
+        "issue": { "type": "string", "description": "Summary of grievance", "maxLength": 200 },
+        "description": { "type": "string", "description": "Detailed explanation", "maxLength": 1000 },
+        "status": {
+          "type": "string",
+          "enum": ["Open", "Under Review", "Resolved", "Dismissed"],
+          "description": "Dispute resolution status"
+        },
+        "adminNotes": { "type": "string", "description": "Staff resolution notes", "maxLength": 500 },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Filing timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Resolution timestamp" }
+      },
+      "required": ["bookingId", "customerId", "providerId", "issue", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "users",
+      "description": "User profiles and account settings"
+    },
+    "/providers/{providerId}": {
+      "schema": "providers",
+      "description": "Verified service providers, trades, and verification records"
+    },
+    "/bookings/{bookingId}": {
+      "schema": "bookings",
+      "description": "Customer service bookings and appointments"
+    },
+    "/reviews/{reviewId}": {
+      "schema": "reviews",
+      "description": "Verified customer reviews on completed bookings"
+    },
+    "/complaints/{complaintId}": {
+      "schema": "complaints",
+      "description": "Customer dispute resolution and complaints queue"
+    }
+  }
+}

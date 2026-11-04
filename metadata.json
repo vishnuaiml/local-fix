@@ -1,0 +1,6 @@
+{
+  "name": "NammaServices – Local Services Booking Marketplace",
+  "description": "NammaServices: Ungal Area, Ungal Services. Discover, book, and review verified local service providers in your neighborhood.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

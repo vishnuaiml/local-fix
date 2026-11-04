@@ -1,0 +1,22 @@
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+
+const firebaseConfig = {
+  projectId: "seventh-axon-bf4nj",
+  appId: "1:1080714530556:web:bfdee81b0bc22c8fd45179",
+  apiKey: "AIzaSyAcYuDyR8ypDWKZRpwFIgVBvbzzJEi-D0k",
+  authDomain: "seventh-axon-bf4nj.firebaseapp.com",
+  firestoreDatabaseId: "ai-studio-localfixlocalser-7e681441-4529-4a7d-aeb3-6faadec59b4d",
+  storageBucket: "seventh-axon-bf4nj.firebasestorage.app",
+  messagingSenderId: "1080714530556",
+  measurementId: "",
+  oAuthClientId: "1080714530556-irqi6of8g7clg2h8nt23r96g9093t8bp.apps.googleusercontent.com",
+  recaptchaSiteKey: ""
+};
+
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+export const auth = getAuth(app);
+export const googleAuthProvider = new GoogleAuthProvider();
+export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+export default app;
